@@ -10,6 +10,10 @@ class Tests(unittest.TestCase):
                 m1 = Maze(0,0,num_rows, num_cols, 10, 10)
                 self.assertEqual(len(m1._Maze__cells), num_cols)
                 self.assertEqual(len(m1._Maze__cells[0]), num_rows)
+                self.assertEqual(m1._Maze__cells[0][0].has_top_wall, False)
+                self.assertEqual(m1._Maze__cells[0][0].has_bottom_wall, True)
+                self.assertEqual(m1._Maze__cells[-1][-1].has_bottom_wall, False)
+                self.assertEqual(m1._Maze__cells[-1][-1].has_top_wall, True)
 
 if __name__ == '__main__':
     unittest.main()
