@@ -17,6 +17,11 @@ class Tests(unittest.TestCase):
         for col in m._Maze__cells:
             for cell in col:
                 self.assertEqual(cell.visited, False)
+    
+    def test_solved(self):
+        m = Maze(0,0,12, 16, 10, 10)
+        m.solve()
+        self.assertEqual(m._Maze__cells[-1][-1].visited, True)
             
 if __name__ == '__main__':
     unittest.main()
