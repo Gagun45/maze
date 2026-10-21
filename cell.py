@@ -14,6 +14,7 @@ class Cell:
         self.__x2 = -1.0
         self.__x1 = -1.0
         self.__x2 = -1.0
+        self.visited = False
         self.__win: Window | None = window
     
     def draw(self, x1,y1,x2,y2):

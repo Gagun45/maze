@@ -1,3 +1,4 @@
+import random
 from time import sleep
 
 from cell import Cell
@@ -14,7 +15,10 @@ class Maze:
       cell_size_x: float,
       cell_size_y: float,
       win: Window | None = None,
+      seed: int | None = None,
    ) -> None:
+        if seed:
+            random.seed(seed)
         self.x1 = x1
         self.y1 = y1
         self.num_rows = num_rows
@@ -25,6 +29,7 @@ class Maze:
         self.__cells: list[list[Cell]] = []
         self.__create_cells()
         self.__break_entrance_and_exit()
+        self.__break_walls_r(0,0)
     
     def __create_cells(self):
         for _ in range(self.num_cols):
@@ -60,3 +65,35 @@ class Maze:
         self.__draw_cell(0,0)
         self.__cells[-1][-1].has_bottom_wall = False
         self.__draw_cell(self.num_cols-1,self.num_rows-1)
+    
+    def __break_walls_r(self, i, j):
+        cell: Cell = self.__cells[i][j]
+        cell.visited = True
+        while True:
+            to_visit = []
+            if i>0 and (not self.__cells[i-1][j].visited):
+                to_visit.append((i-1,j))
+            if i<self.num_cols-1 and (not self.__cells[i+1][j].visited):
+                to_visit.append((i+1,j))
+            if j>0 and (not self.__cells[i][j-1].visited):
+                to_visit.append((i,j-1))
+            if j<self.num_rows-1 and (not self.__cells[i][j+1].visited):
+                to_visit.append((i,j+1))
+            if len(to_visit)==0:
+                self.__draw_cell(i,j)
+                return
+            fold = random.randint(0, len(to_visit)-1)
+            c, r = to_visit[fold]
+            if c > i:
+                cell.has_bottom_wall = False
+                self.__cells[c][r].has_top_wall = False
+            if c < i:
+                cell.has_top_wall = False
+                self.__cells[c][r].has_bottom_wall = False
+            if r > j:
+                cell.has_right_wall = False
+                self.__cells[c][r].has_left_wall = False
+            if r < i:
+                cell.has_left_wall = False
+                self.__cells[c][r].has_right_wall = False
+            self.__break_walls_r(c, r)
