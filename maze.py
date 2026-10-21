@@ -32,6 +32,46 @@ class Maze:
         self.__break_walls_r(0,0)
         self.__reset_cells_visited()
     
+    def solve(self):
+        return self.__solve_r(0,0)
+    
+    def __solve_r(self, i, j):
+        self.__animate()
+        cell:Cell = self.__cells[i][j]
+        cell.visited = True
+        if i == self.num_cols-1 and j == self.num_rows-1:
+            return True
+        if i > 0 and not cell.has_left_wall and not self.__cells[i-1][j].visited:
+            cell.draw_move(self.__cells[i-1][j])
+            solved = self.__solve_r(i-1,j)
+            if solved:
+                return True
+            else:
+                cell.draw_move(self.__cells[i-1][j], True)
+        if i < self.num_cols - 1 and not cell.has_right_wall and not self.__cells[i+1][j].visited:
+            cell.draw_move(self.__cells[i+1][j])
+            result = self.__solve_r(i+1,j)
+            if result:
+                return True
+            else:
+                cell.draw_move(self.__cells[i+1][j], True)
+        if j > 0 and not cell.has_top_wall and not self.__cells[i][j-1].visited:
+            cell.draw_move(self.__cells[i][j-1])
+            result = self.__solve_r(i,j-1)
+            if result:
+                return True
+            else:
+                cell.draw_move(self.__cells[i][j-1], True)
+        if j < self.num_rows - 1 and not cell.has_bottom_wall and not self.__cells[i][j+1].visited:
+            cell.draw_move(self.__cells[i][j+1])
+            result = self.__solve_r(i,j+1)
+            if result:
+                return True
+            else:
+                cell.draw_move(self.__cells[i][j+1], True)
+        return False
+        
+        
     def __reset_cells_visited(self):
         for col in self.__cells:
             for cell in col:
@@ -60,11 +100,11 @@ class Maze:
         cell.draw(x1,y1,x2,y2)
         self.__animate()
     
-    def __animate(self):
+    def __animate(self, creating: bool = False):
         if self.win is None:
             return
         self.win.redraw()
-        sleep(0.005)
+        sleep(0.001)
     
     def __break_entrance_and_exit(self):
         self.__cells[0][0].has_top_wall = False
