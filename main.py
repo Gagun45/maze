@@ -1,10 +1,7 @@
 
 
-from cell import Cell
 from maze import Maze
-from point import Point
 from window import Window
-from line import Line
 
 def main():
     num_rows = 12

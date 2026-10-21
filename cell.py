@@ -5,7 +5,7 @@ from point import Point
 from window import Window
 
 class Cell:
-    def __init__(self, window: Window):
+    def __init__(self, window: Window | None = None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -14,13 +14,15 @@ class Cell:
         self.__x2 = -1.0
         self.__x1 = -1.0
         self.__x2 = -1.0
-        self.__win = window
+        self.__win: Window | None = window
     
     def draw(self, x1,y1,x2,y2):
         self.__x1 = x1
         self.__y1 = y1
         self.__x2 = x2
         self.__y2 = y2
+        if self.__win is None:
+            return
         if self.has_left_wall:
             line = Line(Point(x1, y1), Point(x1, y2))
             self.__win.draw_line(line)
@@ -35,6 +37,8 @@ class Cell:
             self.__win.draw_line(line)
     
     def draw_move(self, to_cell: Cell, undo: bool = False) -> None:
+        if self.__win is None:
+            return
         color = 'gray' if undo else 'red'
         p1 = Point((self.__x1 + self.__x2) // 2, (self.__y1 + self.__y2)//2)
         p2 = Point((to_cell.__x1 + to_cell.__x2) // 2, (to_cell.__y1 + to_cell.__y2)//2)
