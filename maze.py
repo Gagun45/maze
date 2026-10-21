@@ -104,9 +104,14 @@ class Maze:
         if self.win is None:
             return
         self.win.redraw()
+        while self.win.paused:
+            self.win.redraw()
+            sleep(0.01)
         if not creating:
-            sleep(0.1)
-    
+            sleep(0.05)
+        else:
+            sleep(0.001)
+            
     def __break_entrance_and_exit(self):
         self.__cells[0][0].has_top_wall = False
         self.__draw_cell(0,0)

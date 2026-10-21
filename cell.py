@@ -44,7 +44,7 @@ class Cell:
     def draw_move(self, to_cell: Cell, undo: bool = False) -> None:
         if self.__win is None:
             return
-        color = 'gray' if undo else 'green'
+        color = 'red' if undo else 'green'
         p1 = Point((self.__x1 + self.__x2) // 2, (self.__y1 + self.__y2)//2)
         p2 = Point((to_cell.__x1 + to_cell.__x2) // 2, (to_cell.__y1 + to_cell.__y2)//2)
         line = Line(p1, p2)
