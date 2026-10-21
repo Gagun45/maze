@@ -85,11 +85,11 @@ class Maze:
             self.__cells.append(col)
         for c in range(self.num_cols):
             for r in range(self.num_rows):
-                self.__draw_cell(c,r,) 
+                self.__draw_cell(c,r,True) 
               
               
               
-    def __draw_cell(self, c, r):
+    def __draw_cell(self, c, r, creating: bool = False):
         if self.win is None:
             return
         x1 = self.x1 + self.cell_size_x*c
@@ -98,13 +98,14 @@ class Maze:
         y2 = y1 + self.cell_size_y
         cell:Cell = self.__cells[c][r]
         cell.draw(x1,y1,x2,y2)
-        self.__animate()
+        self.__animate(creating)
     
     def __animate(self, creating: bool = False):
         if self.win is None:
             return
         self.win.redraw()
-        sleep(0.001)
+        if not creating:
+            sleep(0.1)
     
     def __break_entrance_and_exit(self):
         self.__cells[0][0].has_top_wall = False
@@ -125,7 +126,7 @@ class Maze:
             if j<self.num_rows-1 and not self.__cells[i][j+1].visited:
                 to_visit.append((i,j+1))
             if len(to_visit)==0:
-                self.__draw_cell(i,j)
+                self.__draw_cell(i,j, True)
                 return
             fold = random.randrange(len(to_visit))
             c, r = to_visit[fold]

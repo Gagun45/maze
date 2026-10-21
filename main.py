@@ -2,6 +2,7 @@
 
 import random
 import sys
+import tkinter
 
 from maze import Maze
 from window import Window
@@ -9,8 +10,8 @@ from window import Window
 sys.setrecursionlimit(5000)
 
 def main():
-    num_rows = 80
-    num_cols = 80
+    num_rows = 10
+    num_cols = 10
     margin = 20
     screen_x = 800
     screen_y = 600
@@ -19,7 +20,8 @@ def main():
     win = Window(screen_x, screen_y)
     seed = random.randint(0, 100)
     maze = Maze(margin, margin, num_rows, num_cols, cell_size_x, cell_size_y, win, seed)
-    maze.solve()
+    
+    # maze.solve()
     
     win.wait_for_close()
         
