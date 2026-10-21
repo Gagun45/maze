@@ -7,13 +7,15 @@ from line import Line
 
 def main():
     win = Window(800,600)
-    c = Cell(win)
-    c.has_right_wall = False
-    c.draw(50, 50, 100, 100)
+    c1 = Cell(win)
+    c1.has_right_wall = False
+    c1.draw(50, 50, 100, 100)
     
-    c = Cell(win)
-    c.has_top_wall = False
-    c.draw(100,100, 150, 150)
+    c2 = Cell(win)
+    c2.has_top_wall = False
+    c2.draw(100,100, 150, 150)
+    
+    c1.draw_move(c2)
     
     win.wait_for_close()
         
